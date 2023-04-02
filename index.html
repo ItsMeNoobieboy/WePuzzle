@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WePuzzle</title>
+  <script>
+    function handleTheme() {
+      const theme = localStorage.getItem("theme");
+      document
+        .getElementById("themeLight")
+        .classList.remove("text-blue-500");
+      document
+        .getElementById("themeDark")
+        .classList.remove("text-blue-500");
+      document
+        .getElementById("themeSystem")
+        .classList.remove("text-blue-500");
+      if (theme === "light") {
+        document
+          .getElementById("themeLight")
+          .classList.add("text-blue-500");
+      } else if (theme === "dark") {
+        document
+          .getElementById("themeDark")
+          .classList.add("text-blue-500");
+      } else {
+        document
+          .getElementById("themeSystem")
+          .classList.add("text-blue-500");
+      }
+      document
+        .getElementById("themeDropdown")
+        .classList.toggle("hidden");
+    }
+    function handleLight() {
+      localStorage.theme = "light";
+      document.documentElement.classList.remove("dark");
+      handleTheme();
+    }
+    function handleDark() {
+      localStorage.theme = "dark";
+      document.documentElement.classList.add("dark");
+      handleTheme();
+    }
+    function handleSystem() {
+      localStorage.removeItem("theme");
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      handleTheme();
+    }
+    function hideDropdown() {
+      document
+        .getElementById("themeDropdown")
+        .classList.add("hidden");
+    }
+
+    window.onclick = function (event) {
+      if (
+        !event.target.matches("#themeButton") &&
+        !event.target.matches("#themeDropdown")
+      ) {
+        document
+          .getElementById("themeDropdown")
+          .classList.add("hidden");
+      }
+    };
+
+    if (
+      localStorage.theme === "dark" ||
+      (!("theme" in localStorage) &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  </script>
+</head>
+
+<body
+  class="relative m-0 p-0 h-full text-black bg-slate-100 dark:text-slate-50 dark:bg-slate-900 transition-colors duration-1000">
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
